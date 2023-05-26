@@ -2,12 +2,12 @@
 # File Information
 #====================================================================#
 """
-    Gamepad.py
+    GamePad.py
     ==========
     Summary:
     --------
     This file contains the high level classes and functions made to
-    a Gamepad BrSpand card.
+    a GamePad BrSpand card.
 """
 #====================================================================#
 # Loading Logs
@@ -45,7 +45,7 @@ from Programs.Local.FileHandler.Profiles import ProfileHandler
 #====================================================================#
 _EmptyJsonStructure:dict = {
     "version" : 0.1,
-    "name" : "Gamepad",
+    "name" : "GamePad",
     "saved-profiles" : {
 
     }
@@ -169,15 +169,15 @@ profileExample = {
 #====================================================================#
 # Classes
 #====================================================================#
-class Gamepad(AddonFoundations):
+class GamePad(AddonFoundations):
     #region   --------------------------- DOCSTRING
     """
-        Gamepad:
+        GamePad:
         ==============
         Summary:
         --------
         This class handles the backend of trying
-        to interface an Gamepad addon card
+        to interface an GamePad addon card
         with the Raspberry Pi.
     """
     #endregion
@@ -248,7 +248,7 @@ class Gamepad(AddonFoundations):
             =======
             Summary:
             --------
-            Launches the Gamepad addon.
+            Launches the GamePad addon.
             returns Execution to indicate how
             the launch went.
 
@@ -258,12 +258,12 @@ class Gamepad(AddonFoundations):
             - `Execution.Failed` = Error occured
             - `Execution.Incompatibility` = Failed to verify for compatibility.
         """
-        Debug.Start("Gamepad -> Launch")
+        Debug.Start("GamePad -> Launch")
 
         Debug.Log("Creating AddonInfoHandler")
-        Gamepad.addonInformation = AddonInfoHandler(
-            name="Gamepad",
-            description="BrSpand Gamepad card giving extra hardware controls to your devices",
+        GamePad.addonInformation = AddonInfoHandler(
+            name="GamePad",
+            description="BrSpand GamePad card giving extra hardware controls to your devices",
             version="0.0.1",
             type="brspand",
             repository="https://github.com/LyamBRS/BrSpand_GamePad.git",
@@ -272,52 +272,52 @@ class Gamepad(AddonFoundations):
             readsSoftwareButtons= False,
             readsSoftwareAxes= False,
             MDIcon= "gamepad-variant",
-            LaunchFunction = Gamepad.Launch,
-            StopFunction = Gamepad.Stop,
-            UninstallFunction = Gamepad.Uninstall,
-            UpdateFunction = Gamepad.Update,
-            GetStateFunction = Gamepad.GetState,
-            ClearProfileFunction= Gamepad.ClearProfile,
-            SaveProfile = Gamepad.SaveProfile,
-            ChangeProfile= Gamepad.ChangeProfile,
-            LoadProfile= Gamepad.LoadProfile,
-            UnloadProfile= Gamepad.UnloadProfile,
-            PeriodicCallback= Gamepad.PeriodicCallback,
-            GetAllHardwareControls= Gamepad.GetAllHardwareControls,
-            GetAllSoftwareActions= Gamepad.GetAllSoftwareActions,
-            ChangeButtonActionBinding= Gamepad.ChangeButtonActionBinding,
-            ChangeAxisActionBinding= Gamepad.ChangeAxisActionBinding,
-            UnbindButtonBinding= Gamepad.UnbindButtonBinding,
-            UnbindAxisBinding= Gamepad.UnbindAxisBinding,
-            ChangeButtonBinding= Gamepad.ChangeButtonBinding,
-            ChangeAxisBinding= Gamepad.ChangeAxisBinding
+            LaunchFunction = GamePad.Launch,
+            StopFunction = GamePad.Stop,
+            UninstallFunction = GamePad.Uninstall,
+            UpdateFunction = GamePad.Update,
+            GetStateFunction = GamePad.GetState,
+            ClearProfileFunction= GamePad.ClearProfile,
+            SaveProfile = GamePad.SaveProfile,
+            ChangeProfile= GamePad.ChangeProfile,
+            LoadProfile= GamePad.LoadProfile,
+            UnloadProfile= GamePad.UnloadProfile,
+            PeriodicCallback= GamePad.PeriodicCallback,
+            GetAllHardwareControls= GamePad.GetAllHardwareControls,
+            GetAllSoftwareActions= GamePad.GetAllSoftwareActions,
+            ChangeButtonActionBinding= GamePad.ChangeButtonActionBinding,
+            ChangeAxisActionBinding= GamePad.ChangeAxisActionBinding,
+            UnbindButtonBinding= GamePad.UnbindButtonBinding,
+            UnbindAxisBinding= GamePad.UnbindAxisBinding,
+            ChangeButtonBinding= GamePad.ChangeButtonBinding,
+            ChangeAxisBinding= GamePad.ChangeAxisBinding
         )
 
         Debug.Log("Checking if we need to load in a current profile.")
         profileName = ProfileHandler.currentName
         if(profileName != None):
-            Gamepad.loadedProfileName = profileName
-            Gamepad.LoadProfile(profileName)
+            GamePad.loadedProfileName = profileName
+            GamePad.LoadProfile(profileName)
 
-        result = Gamepad.VerifyForExecution()
+        result = GamePad.VerifyForExecution()
         if(result != Execution.Passed):
             Debug.Error("The BrSpand card cannot run on your device.")
             Debug.Log("Adding addon to application...")
-            Gamepad.addonInformation.DockAddonToApplication(False)
+            GamePad.addonInformation.DockAddonToApplication(False)
             Debug.End()
             return result
 
         result = UART.StartDriver()
         if(result == Execution.Failed):
             Debug.Error("Failed to start backend driver UART")
-            Gamepad.addonInformation.DockAddonToApplication(False)
+            GamePad.addonInformation.DockAddonToApplication(False)
             Debug.End()
             return Execution.Failed
 
         Debug.Log("Addon started successfully.")
         Debug.Log("Adding addon to application...")
-        Gamepad.addonInformation.DockAddonToApplication(True)
-        Gamepad.state = True
+        GamePad.addonInformation.DockAddonToApplication(True)
+        GamePad.state = True
         Debug.End()
         return Execution.Passed
     # -----------------------------------
@@ -332,22 +332,22 @@ class Gamepad(AddonFoundations):
             Gone, reduced to atoms.
             Oh, and it unbinds stuff too.
         """
-        Debug.Start("Gamepad -> Stop")
+        Debug.Start("GamePad -> Stop")
 
-        if(Gamepad.state == True):
+        if(GamePad.state == True):
             Debug.Log("Stopping Reader")
             # result = ADXL343.StopDriver()
             # if(result != Execution.Passed):
-                # Debug.Error("Error when trying to stop Gamepad")
+                # Debug.Error("Error when trying to stop GamePad")
                 # Debug.End()
                 # return Execution.Failed
-            Debug.Log("Gamepad is now OFF")
-            Gamepad.profileData.SaveFile()
-            Gamepad.state = False
+            Debug.Log("GamePad is now OFF")
+            GamePad.profileData.SaveFile()
+            GamePad.state = False
             Debug.End()
             return Execution.Passed
         else:
-            Debug.Log("Unecessary. Gamepad is not running.")
+            Debug.Log("Unecessary. GamePad is not running.")
             Debug.End()
             return Execution.Unecessary
     # -----------------------------------
@@ -366,13 +366,13 @@ class Gamepad(AddonFoundations):
             - `Execution.Failed` = Something fucked up.
             - `dict` see :ref:`hardwareControls`
         """
-        Debug.Start("Gamepad -> GetAllHardwareControls")
-        if(Gamepad.state == True):
+        Debug.Start("GamePad -> GetAllHardwareControls")
+        if(GamePad.state == True):
             Debug.Log("Returning proper values")
             Debug.End()
-            return Gamepad.hardwareControls
+            return GamePad.hardwareControls
         else:
-            Debug.Log("Unecessary. Gamepad is not running.")
+            Debug.Log("Unecessary. GamePad is not running.")
             Debug.End()
             return Execution.ByPassed
     # -----------------------------------
@@ -388,32 +388,32 @@ class Gamepad(AddonFoundations):
             name, default values are loaded
             and the profile is created.
         """
-        Debug.Start("Gamepad -> LoadProfile")
+        Debug.Start("GamePad -> LoadProfile")
 
-        if(Gamepad.state == True):
+        if(GamePad.state == True):
             Debug.Log(f"Trying to load {profileToLoad} from Profiles.json")
 
             try:
-                profile = Gamepad.profileData.jsonData["saved-profiles"][profileToLoad]
+                profile = GamePad.profileData.jsonData["saved-profiles"][profileToLoad]
                 Debug.Log(f"{profileToLoad} was found in the JSON.")
             except:
                 Debug.Log(f"{profileToLoad} doesn't exist in the JSON... Creating it.")
-                Gamepad._AddNewProfile(profileToLoad)
+                GamePad._AddNewProfile(profileToLoad)
 
                 Debug.Log("Saving JSON file...")
-                saved = Gamepad.profileData.SaveFile()
+                saved = GamePad.profileData.SaveFile()
                 if(not saved):
                     Debug.Error("Failed to save JSON file...")
                     Debug.End()
                     return Execution.Failed
                 Debug.Log("Success")
-                profile = Gamepad.profileData.jsonData["saved-profiles"][profileToLoad]
+                profile = GamePad.profileData.jsonData["saved-profiles"][profileToLoad]
 
             Debug.Log(f"Loading {profileToLoad}'s data.")
-            Gamepad.loadedProfileName = profileToLoad
-            result = Gamepad._LoadProfileBindsInApplication()
+            GamePad.loadedProfileName = profileToLoad
+            result = GamePad._LoadProfileBindsInApplication()
             if(result != Execution.Passed):
-                Debug.Error(f"Failed to keybinds of {Gamepad.loadedProfileName} into the Controls class.")
+                Debug.Error(f"Failed to keybinds of {GamePad.loadedProfileName} into the Controls class.")
                 Debug.End()
                 return result
             
@@ -421,7 +421,7 @@ class Gamepad(AddonFoundations):
             Debug.End()
             return Execution.Passed
         else:
-            Debug.Warn("Gamepad is not running.")
+            Debug.Warn("GamePad is not running.")
             Debug.End()
             return Execution.ByPassed
     # -----------------------------------
@@ -438,20 +438,20 @@ class Gamepad(AddonFoundations):
             Usually used when someone is logging
             out of their profiles.
         """
-        Debug.Start("Gamepad -> UnloadProfile")
+        Debug.Start("GamePad -> UnloadProfile")
 
-        if(Gamepad.state == True):
+        if(GamePad.state == True):
             Debug.Log(f"Unloading the current profile.")
-            result = Gamepad._UnbindEverything()
+            result = GamePad._UnbindEverything()
             if(result != Execution.Passed):
                 Debug.Error(f"_UnbindEverything returned error code: {result}")
                 Debug.End()
                 return result
 
             Debug.Log("Clearing saved profile's name.")
-            Gamepad.loadedProfileName = None
+            GamePad.loadedProfileName = None
         else:
-            Debug.Warn("Gamepad is not running.")
+            Debug.Warn("GamePad is not running.")
             Debug.End()
             return Execution.ByPassed
     # -----------------------------------
@@ -466,28 +466,28 @@ class Gamepad(AddonFoundations):
             a specific profile with the
             currently loaded informations.
         """
-        Debug.Start("Gamepad -> SaveProfile")
+        Debug.Start("GamePad -> SaveProfile")
 
-        if(Gamepad.state == True):
-            if(Gamepad.loadedProfileName == None and profileToSave == None):
+        if(GamePad.state == True):
+            if(GamePad.loadedProfileName == None and profileToSave == None):
                 Debug.Error("No profiles were loaded in the class.")
                 Debug.End()
                 return Execution.Failed
 
             if(profileToSave == None):
                 Debug.Log("Saving loaded profile.")
-                profileToSave = Gamepad.loadedProfileName
+                profileToSave = GamePad.loadedProfileName
 
-            existing = Gamepad._DoesProfileExist(profileToSave)
+            existing = GamePad._DoesProfileExist(profileToSave)
             if(not existing):
                 Debug.Log(f"{profileToSave} does not exist. Creating it.")
-                Gamepad._AddNewProfile(profileToSave)
-                Gamepad._PutBindsInProfile(profileToSave)
+                GamePad._AddNewProfile(profileToSave)
+                GamePad._PutBindsInProfile(profileToSave)
             else:
                 Debug.Log(f"Putting live binds in {profileToSave}")
-                Gamepad._PutBindsInProfile(profileToSave)
+                GamePad._PutBindsInProfile(profileToSave)
 
-            saved = Gamepad.profileData.SaveFile()
+            saved = GamePad.profileData.SaveFile()
             if(not saved):
                 Debug.Error("Saving failed.")
                 Debug.End()
@@ -497,7 +497,7 @@ class Gamepad(AddonFoundations):
             Debug.End()
             return Execution.Passed
         else:
-            Debug.Log("Unecessary. Gamepad is not running.")
+            Debug.Log("Unecessary. GamePad is not running.")
             Debug.End()
             return Execution.ByPassed
     # -----------------------------------
@@ -510,23 +510,23 @@ class Gamepad(AddonFoundations):
             Attempts to clear a given profile
             from the cache of this addon.
         """
-        Debug.Start("Gamepad -> ClearProfile")
-        if(Gamepad.profileData.jsonData == None):
-            Debug.Error("No json is loaded. Gamepad cannot delete anything.")
+        Debug.Start("GamePad -> ClearProfile")
+        if(GamePad.profileData.jsonData == None):
+            Debug.Error("No json is loaded. GamePad cannot delete anything.")
             Debug.End()
             return Execution.ByPassed
 
-        existing = Gamepad._DoesProfileExist(profileToClear)
+        existing = GamePad._DoesProfileExist(profileToClear)
         if(not existing):
-            Debug.Warn(f"Gamepad has no cached data for {profileToClear}")
+            Debug.Warn(f"GamePad has no cached data for {profileToClear}")
             Debug.End()
             return Execution.Unecessary
 
-        savedProfiles:dict = Gamepad.profileData.jsonData["saved-profiles"]
+        savedProfiles:dict = GamePad.profileData.jsonData["saved-profiles"]
         savedProfiles.pop(profileToClear)
-        Debug.Log(f"{profileToClear} no longer exists in Gamepad's cached profiles.")
-        Gamepad.profileData.jsonData["saved-profiles"] = savedProfiles
-        Gamepad.profileData.SaveFile()
+        Debug.Log(f"{profileToClear} no longer exists in GamePad's cached profiles.")
+        GamePad.profileData.jsonData["saved-profiles"] = savedProfiles
+        GamePad.profileData.SaveFile()
         Debug.End()
         return Execution.Passed
     # -----------------------------------
@@ -546,33 +546,33 @@ class Gamepad(AddonFoundations):
             - `nameOfSoftwareAxis` : Axis taken from SoftwareAxis in controls.py
             - `nameOfHardwareAxis` : Hardware axis to bind to :ref:`nameOfSoftwareAxis`
         """
-        Debug.Start("Gamepad -> ChangeAxisBinding")
+        Debug.Start("GamePad -> ChangeAxisBinding")
 
-        if(Gamepad.state == True):
-            result = Gamepad.UnbindAxisBinding(nameOfSoftwareAxis)
+        if(GamePad.state == True):
+            result = GamePad.UnbindAxisBinding(nameOfSoftwareAxis)
             if(result != Execution.Passed and result != Execution.Unecessary):
                 Debug.Error(f"Failed to unbind software axis: {nameOfSoftwareAxis}")
                 Debug.End()
                 return Execution.Failed
 
-            result = Gamepad._UnbindHardwareAxis(nameOfHardwareAxis)
+            result = GamePad._UnbindHardwareAxis(nameOfHardwareAxis)
             if(result != Execution.Passed and result != Execution.Unecessary):
                 Debug.Error(f"Failed to unbind hardware axis: {nameOfHardwareAxis}")
                 Debug.End()
                 return Execution.Failed
 
-            Debug.Log(f"Gamepad no longer holds bindings for the software axis: {nameOfSoftwareAxis} as well as the hardware axis: {nameOfHardwareAxis}")
+            Debug.Log(f"GamePad no longer holds bindings for the software axis: {nameOfSoftwareAxis} as well as the hardware axis: {nameOfHardwareAxis}")
 
-            result = Gamepad._BindAxis(nameOfSoftwareAxis, nameOfHardwareAxis)
+            result = GamePad._BindAxis(nameOfSoftwareAxis, nameOfHardwareAxis)
             if(result != Execution.Passed):
                 Debug.Error(f"Something went wrong when trying to bind {nameOfHardwareAxis} to {nameOfSoftwareAxis}")
                 Debug.End()
                 return result
 
-            Debug.Log(f"Saving {Gamepad.loadedProfileName}'s new binds.")
-            Gamepad._PutBindsInProfile(Gamepad.loadedProfileName)
+            Debug.Log(f"Saving {GamePad.loadedProfileName}'s new binds.")
+            GamePad._PutBindsInProfile(GamePad.loadedProfileName)
 
-            saved = Gamepad.profileData.SaveFile()
+            saved = GamePad.profileData.SaveFile()
             if(not saved):
                 Debug.Log("Failed to save Profile.json")
                 Debug.End()
@@ -602,33 +602,33 @@ class Gamepad(AddonFoundations):
             - `nameOfSoftwareButton` : Axis taken from SoftwareButtons in controls.py
             - `nameOfHardwareButton` : Hardware axis to bind to :ref:`nameOfSoftwareButton`
         """
-        Debug.Start("Gamepad -> ChangeButtonBinding")
+        Debug.Start("GamePad -> ChangeButtonBinding")
 
-        if(Gamepad.state == True):
-            result = Gamepad.UnbindButtonBinding(nameOfSoftwareButton)
+        if(GamePad.state == True):
+            result = GamePad.UnbindButtonBinding(nameOfSoftwareButton)
             if(result != Execution.Passed and result != Execution.Unecessary):
                 Debug.Error(f"Failed to unbind software button: {nameOfSoftwareButton}")
                 Debug.End()
                 return Execution.Failed
 
-            result = Gamepad._UnbindHardwareButton(nameOfHardwareButton)
+            result = GamePad._UnbindHardwareButton(nameOfHardwareButton)
             if(result != Execution.Passed and result != Execution.Unecessary):
                 Debug.Error(f"Failed to unbind hardware button: {nameOfHardwareButton}")
                 Debug.End()
                 return Execution.Failed
 
-            Debug.Log(f"Gamepad no longer holds bindings for the software button: {nameOfSoftwareButton} as well as the hardware button: {nameOfHardwareButton}")
+            Debug.Log(f"GamePad no longer holds bindings for the software button: {nameOfSoftwareButton} as well as the hardware button: {nameOfHardwareButton}")
 
-            result = Gamepad._BindButton(nameOfSoftwareButton, nameOfHardwareButton)
+            result = GamePad._BindButton(nameOfSoftwareButton, nameOfHardwareButton)
             if(result != Execution.Passed):
                 Debug.Error(f"Something went wrong when trying to bind {nameOfHardwareButton} to {nameOfSoftwareButton}")
                 Debug.End()
                 return result
 
-            Debug.Log(f"Saving {Gamepad.loadedProfileName}'s new binds.")
-            Gamepad._PutBindsInProfile(Gamepad.loadedProfileName)
+            Debug.Log(f"Saving {GamePad.loadedProfileName}'s new binds.")
+            GamePad._PutBindsInProfile(GamePad.loadedProfileName)
 
-            saved = Gamepad.profileData.SaveFile()
+            saved = GamePad.profileData.SaveFile()
             if(not saved):
                 Debug.Log("Failed to save Profile.json")
                 Debug.End()
@@ -638,7 +638,7 @@ class Gamepad(AddonFoundations):
             Debug.End()
             return Execution.Passed
         else:
-            Debug.Log("Unecessary. Gamepad is not running.")
+            Debug.Log("Unecessary. GamePad is not running.")
             Debug.End()
             return Execution.ByPassed
     # -----------------------------------
@@ -656,27 +656,27 @@ class Gamepad(AddonFoundations):
             ----------
             - `nameOfSoftwareAxis` : Axis taken from SoftwareAxis in controls.py that needs to be unbinded.
         """
-        Debug.Start("Gamepad -> UnbindAxisBinding")
+        Debug.Start("GamePad -> UnbindAxisBinding")
 
-        if(Gamepad.state):
-            whateverAxisHadItBinded = Gamepad._WhoHasThatAxisBinded(nameOfSoftwareAxis)
+        if(GamePad.state):
+            whateverAxisHadItBinded = GamePad._WhoHasThatAxisBinded(nameOfSoftwareAxis)
             if(whateverAxisHadItBinded == Execution.Unecessary):
-                Debug.Log(f"{nameOfSoftwareAxis} isn't currently binded by the Gamepad.")
+                Debug.Log(f"{nameOfSoftwareAxis} isn't currently binded by the GamePad.")
                 Debug.End()
                 return Execution.Unecessary
 
-            result = Gamepad._UnbindSoftwareAxis(nameOfSoftwareAxis, whateverAxisHadItBinded)
+            result = GamePad._UnbindSoftwareAxis(nameOfSoftwareAxis, whateverAxisHadItBinded)
             if(result != Execution.Passed):
                 Debug.Log(f"Error occured when unbinding {nameOfSoftwareAxis}. Return code: {result}")
 
             Debug.Log("Updating profile with new informations.")
-            Gamepad._PutBindsInProfile(Gamepad.loadedProfileName)
-            Gamepad.profileData.SaveFile()
+            GamePad._PutBindsInProfile(GamePad.loadedProfileName)
+            GamePad.profileData.SaveFile()
             Debug.Log(">>> Success")
             Debug.End()
             return Execution.Passed
         else:
-            Debug.Warn("Gamepad is not running.")
+            Debug.Warn("GamePad is not running.")
             Debug.End()
             return Execution.ByPassed
     # -----------------------------------
@@ -694,27 +694,27 @@ class Gamepad(AddonFoundations):
             ----------
             - `nameOfSoftwareButton` : button taken from nameOfSoftwareButton in controls.py that needs to be unbinded.
         """
-        Debug.Start("Gamepad -> UnbindButtonBinding")
+        Debug.Start("GamePad -> UnbindButtonBinding")
 
-        if(Gamepad.state):
-            whateverButtonHadItBinded = Gamepad._WhoHasThatButtonBinded(nameOfSoftwareButton)
+        if(GamePad.state):
+            whateverButtonHadItBinded = GamePad._WhoHasThatButtonBinded(nameOfSoftwareButton)
             if(whateverButtonHadItBinded == Execution.Unecessary):
-                Debug.Log(f"{nameOfSoftwareButton} isn't currently binded by the Gamepad.")
+                Debug.Log(f"{nameOfSoftwareButton} isn't currently binded by the GamePad.")
                 Debug.End()
                 return Execution.Unecessary
 
-            result = Gamepad._UnbindSoftwareButton(nameOfSoftwareButton, whateverButtonHadItBinded)
+            result = GamePad._UnbindSoftwareButton(nameOfSoftwareButton, whateverButtonHadItBinded)
             if(result != Execution.Passed):
                 Debug.Log(f"Error occured when unbinding {nameOfSoftwareButton}. Return code: {result}")
 
             Debug.Log("Updating profile with new informations.")
-            Gamepad._PutBindsInProfile(Gamepad.loadedProfileName)
-            Gamepad.profileData.SaveFile()
+            GamePad._PutBindsInProfile(GamePad.loadedProfileName)
+            GamePad.profileData.SaveFile()
             Debug.Log(">>> Success")
             Debug.End()
             return Execution.Passed
         else:
-            Debug.Warn("Gamepad is not running.")
+            Debug.Warn("GamePad is not running.")
             Debug.End()
             return Execution.ByPassed
     #endregion
@@ -731,17 +731,17 @@ class Gamepad(AddonFoundations):
         """
         Debug.Start("_UnbindEverything")
 
-        for hardwareAxis, data in Gamepad.hardwareControls["axes"].items():
-            Debug.Log(f"Unbinding {hardwareAxis} from the Gamepad.")
-            result = Gamepad._UnbindHardwareAxis(hardwareAxis)
+        for hardwareAxis, data in GamePad.hardwareControls["axes"].items():
+            Debug.Log(f"Unbinding {hardwareAxis} from the GamePad.")
+            result = GamePad._UnbindHardwareAxis(hardwareAxis)
             if(result != Execution.Passed and result != Execution.Unecessary):
                 Debug.Error(f"Fatal error occured when trying to unbind {hardwareAxis}. Return code: {result}")
                 Debug.End()
                 return Execution.Failed
             
-        for hardwareButton, data in Gamepad.hardwareControls["buttons"].items():
-            Debug.Log(f"Unbinding {hardwareButton} from the Gamepad.")
-            result = Gamepad._UnbindHardwareButton(hardwareButton)
+        for hardwareButton, data in GamePad.hardwareControls["buttons"].items():
+            Debug.Log(f"Unbinding {hardwareButton} from the GamePad.")
+            result = GamePad._UnbindHardwareButton(hardwareButton)
             if(result != Execution.Passed and result != Execution.Unecessary):
                 Debug.Error(f"Fatal error occured when trying to unbind {hardwareButton}. Return code: {result}")
                 Debug.End()
@@ -765,21 +765,21 @@ class Gamepad(AddonFoundations):
         Debug.Start("_UnbindHardwareAxis")
 
         Debug.Log(f"Getting what is binded to {nameOfHardwareAxis}")
-        whatItsBindedTo = Gamepad.hardwareControls["axes"][nameOfHardwareAxis]["bindedTo"]
+        whatItsBindedTo = GamePad.hardwareControls["axes"][nameOfHardwareAxis]["bindedTo"]
         if(whatItsBindedTo == None):
             Debug.Log(f"{nameOfHardwareAxis} isn't binded to any software axis.")
             Debug.End()
             return Execution.Passed
 
         Debug.Log(f"Unbinding {nameOfHardwareAxis} from {whatItsBindedTo}")
-        result = Controls.UnbindAxis("Gamepad", nameOfSoftwareAxis=whatItsBindedTo)
+        result = Controls.UnbindAxis("GamePad", nameOfSoftwareAxis=whatItsBindedTo)
         if(result != Execution.Passed):
             Debug.Log(f"Failed to unbind {nameOfHardwareAxis} from {whatItsBindedTo}")
             Debug.End()
             return result
 
-        Gamepad.hardwareControls["axes"][nameOfHardwareAxis]["binded"] = False
-        Gamepad.hardwareControls["axes"][nameOfHardwareAxis]["bindedTo"] = None
+        GamePad.hardwareControls["axes"][nameOfHardwareAxis]["binded"] = False
+        GamePad.hardwareControls["axes"][nameOfHardwareAxis]["bindedTo"] = None
         Debug.Log(f"{nameOfHardwareAxis} is now default values.")
 
         Debug.End()
@@ -799,21 +799,21 @@ class Gamepad(AddonFoundations):
         Debug.Start("_UnbindHardwareAxis")
 
         Debug.Log(f"Getting what is binded to {nameOfHardwareButton}")
-        whatItsBindedTo = Gamepad.hardwareControls["buttons"][nameOfHardwareButton]["bindedTo"]
+        whatItsBindedTo = GamePad.hardwareControls["buttons"][nameOfHardwareButton]["bindedTo"]
         if(whatItsBindedTo == None):
             Debug.Log(f"{nameOfHardwareButton} isn't binded to any software buttons.")
             Debug.End()
             return Execution.Passed
 
         Debug.Log(f"Unbinding {nameOfHardwareButton} from {whatItsBindedTo}")
-        result = Controls.UnbindButton("Gamepad", nameOfSoftwareButton=whatItsBindedTo)
+        result = Controls.UnbindButton("GamePad", nameOfSoftwareButton=whatItsBindedTo)
         if(result != Execution.Passed):
             Debug.Log(f"Failed to unbind {nameOfHardwareButton} from {whatItsBindedTo}")
             Debug.End()
             return result
 
-        Gamepad.hardwareControls["buttons"][nameOfHardwareButton]["binded"] = False
-        Gamepad.hardwareControls["buttons"][nameOfHardwareButton]["bindedTo"] = None
+        GamePad.hardwareControls["buttons"][nameOfHardwareButton]["binded"] = False
+        GamePad.hardwareControls["buttons"][nameOfHardwareButton]["bindedTo"] = None
         Debug.Log(f"{nameOfHardwareButton} is now default values.")
 
         Debug.End()
@@ -833,14 +833,14 @@ class Gamepad(AddonFoundations):
         Debug.Start("_UnbindSoftwareAxis")
 
         Debug.Log(f"Unbinding {nameOfHardwareAxis} from {nameOfSoftwareAxis} in the Controls class.")
-        result = Controls.UnbindAxis("Gamepad", nameOfSoftwareAxis=nameOfSoftwareAxis)
+        result = Controls.UnbindAxis("GamePad", nameOfSoftwareAxis=nameOfSoftwareAxis)
         if(result != Execution.Passed):
             Debug.Log(f"Failed to unbind {nameOfHardwareAxis} from {nameOfSoftwareAxis}")
             Debug.End()
             return result
 
-        Gamepad.hardwareControls["axes"][nameOfHardwareAxis]["binded"] = False
-        Gamepad.hardwareControls["axes"][nameOfHardwareAxis]["bindedTo"] = None
+        GamePad.hardwareControls["axes"][nameOfHardwareAxis]["binded"] = False
+        GamePad.hardwareControls["axes"][nameOfHardwareAxis]["bindedTo"] = None
         Debug.Log(f"{nameOfHardwareAxis} is now default values.")
 
         Debug.End()
@@ -860,14 +860,14 @@ class Gamepad(AddonFoundations):
         Debug.Start("_UnbindSoftwareButton")
 
         Debug.Log(f"Unbinding {nameOfHardwareButton} from {nameOfHardwareButton} in the Controls class.")
-        result = Controls.UnbindButton("Gamepad", nameOfSoftwareAxis=nameOfHardwareButton)
+        result = Controls.UnbindButton("GamePad", nameOfSoftwareAxis=nameOfHardwareButton)
         if(result != Execution.Passed):
             Debug.Log(f"Failed to unbind {nameOfHardwareButton} from {nameOfHardwareButton}")
             Debug.End()
             return result
 
-        Gamepad.hardwareControls["buttons"][nameOfHardwareButton]["binded"] = False
-        Gamepad.hardwareControls["buttons"][nameOfHardwareButton]["bindedTo"] = None
+        GamePad.hardwareControls["buttons"][nameOfHardwareButton]["binded"] = False
+        GamePad.hardwareControls["buttons"][nameOfHardwareButton]["bindedTo"] = None
         Debug.Log(f"{nameOfHardwareButton} is now default values.")
 
         Debug.End()
@@ -887,14 +887,14 @@ class Gamepad(AddonFoundations):
         Debug.Start("_BindAxis")
 
         Debug.Log(f"Binding {nameOfHardwareAxis} to {nameOfSoftwareAxis} in Controls class.")
-        result = Controls.BindAxis("Gamepad", nameOfSoftwareAxis, nameOfHardwareAxis, Gamepad.hardwareControls["axes"][nameOfHardwareAxis]["getter"])
+        result = Controls.BindAxis("GamePad", nameOfSoftwareAxis, nameOfHardwareAxis, GamePad.hardwareControls["axes"][nameOfHardwareAxis]["getter"])
         if(result != Execution.Passed):
             Debug.Log(f"Failed to bind {nameOfHardwareAxis} to {nameOfSoftwareAxis} with error code: {result}")
             Debug.End()
             return result
 
-        Gamepad.hardwareControls["axes"][nameOfHardwareAxis]["binded"] = True
-        Gamepad.hardwareControls["axes"][nameOfHardwareAxis]["bindedTo"] = nameOfSoftwareAxis
+        GamePad.hardwareControls["axes"][nameOfHardwareAxis]["binded"] = True
+        GamePad.hardwareControls["axes"][nameOfHardwareAxis]["bindedTo"] = nameOfSoftwareAxis
         Debug.Log(f"{nameOfHardwareAxis} is now binded to {nameOfSoftwareAxis}.")
 
         Debug.End()
@@ -914,14 +914,14 @@ class Gamepad(AddonFoundations):
         Debug.Start("_BindAxis")
 
         Debug.Log(f"Binding {nameOfHardwareButton} to {nameOfHardwareButton} in Controls class.")
-        result = Controls.BindButton("Gamepad", nameOfHardwareButton, nameOfHardwareButton, Gamepad.hardwareControls["buttons"][nameOfHardwareButton]["getter"])
+        result = Controls.BindButton("GamePad", nameOfHardwareButton, nameOfHardwareButton, GamePad.hardwareControls["buttons"][nameOfHardwareButton]["getter"])
         if(result != Execution.Passed):
             Debug.Log(f"Failed to bind {nameOfHardwareButton} to {nameOfHardwareButton} with error code: {result}")
             Debug.End()
             return result
 
-        Gamepad.hardwareControls["buttons"][nameOfHardwareButton]["binded"] = True
-        Gamepad.hardwareControls["buttons"][nameOfHardwareButton]["bindedTo"] = nameOfHardwareButton
+        GamePad.hardwareControls["buttons"][nameOfHardwareButton]["binded"] = True
+        GamePad.hardwareControls["buttons"][nameOfHardwareButton]["bindedTo"] = nameOfHardwareButton
         Debug.Log(f"{nameOfHardwareButton} is now binded to {nameOfHardwareButton}.")
 
         Debug.End()
@@ -940,7 +940,7 @@ class Gamepad(AddonFoundations):
         """
         Debug.Start("_WhoHasThatAxisBinded")
 
-        for hardwareAxis, axisData in Gamepad.hardwareControls["axes"].items():
+        for hardwareAxis, axisData in GamePad.hardwareControls["axes"].items():
             if(axisData["bindedTo"] == nameOfSoftwareAxis):
                 Debug.Log(f"{nameOfSoftwareAxis} is binded to {hardwareAxis}")
                 Debug.End()
@@ -963,7 +963,7 @@ class Gamepad(AddonFoundations):
         """
         Debug.Start("_WhoHasThatButtonBinded")
 
-        for hardwareButton, axisData in Gamepad.hardwareControls["buttons"].items():
+        for hardwareButton, axisData in GamePad.hardwareControls["buttons"].items():
             if(axisData["bindedTo"] == nameOfSoftwareButton):
                 Debug.Log(f"{nameOfSoftwareButton} is binded to {hardwareButton}")
                 Debug.End()
@@ -985,14 +985,14 @@ class Gamepad(AddonFoundations):
         Debug.Start("_InitializeProfileJson")
 
         path = os.getcwd()
-        path = AppendPath(path, "/BrSpand/Drivers/Gamepad/")
+        path = AppendPath(path, "/BrSpand/Drivers/GamePad/")
 
-        Gamepad.profileData = JSONdata("Profiles", path)
-        if(Gamepad.profileData.jsonData == None):
-            Debug.Warn("No profile json file found for Gamepad")
-            Gamepad.profileData.CreateFile(_EmptyJsonStructure)
-            Gamepad.profileData = JSONdata("Profiles", path)
-            if(Gamepad.profileData.jsonData == None):
+        GamePad.profileData = JSONdata("Profiles", path)
+        if(GamePad.profileData.jsonData == None):
+            Debug.Warn("No profile json file found for GamePad")
+            GamePad.profileData.CreateFile(_EmptyJsonStructure)
+            GamePad.profileData = JSONdata("Profiles", path)
+            if(GamePad.profileData.jsonData == None):
                 Debug.Error("Failed to create and load JSON after second attempt.")
                 Debug.End()
                 return Execution.Failed
@@ -1018,12 +1018,12 @@ class Gamepad(AddonFoundations):
         """ 
         Debug.Start("_LoadProfileBindsInApplication")
 
-        if(Gamepad.loadedProfileName == None):
+        if(GamePad.loadedProfileName == None):
             Debug.Error("saved profile name is None. Something fucked up.")
             Debug.End()
             return Execution.Failed
 
-        profile = Gamepad.profileData.jsonData["saved-profiles"][Gamepad.loadedProfileName]
+        profile = GamePad.profileData.jsonData["saved-profiles"][GamePad.loadedProfileName]
         hardwareAxes = profile["hardware"]["axes"]
         hardwareButtons = profile["hardware"]["buttons"]
 
@@ -1036,14 +1036,14 @@ class Gamepad(AddonFoundations):
                 bindedTo = data["bindedTo"]
                 getter = data["getter"]
 
-                result = Controls.BindAxis("Gamepad", bindedTo, hardwareAxis, getter)
+                result = Controls.BindAxis("GamePad", bindedTo, hardwareAxis, getter)
                 if(result != Execution.Passed):
                     Debug.Warn(f"Failed to bind {hardwareAxis} to {bindedTo} as Kontrol")
-                    Gamepad.hardwareControls["axes"][hardwareAxis]["binded"] = False,
-                    Gamepad.hardwareControls["axes"][hardwareAxis]["bindedTo"] = None
+                    GamePad.hardwareControls["axes"][hardwareAxis]["binded"] = False,
+                    GamePad.hardwareControls["axes"][hardwareAxis]["bindedTo"] = None
                 else:
-                    Gamepad.hardwareControls["axes"][hardwareAxis]["binded"] = True,
-                    Gamepad.hardwareControls["axes"][hardwareAxis]["bindedTo"] = bindedTo
+                    GamePad.hardwareControls["axes"][hardwareAxis]["binded"] = True,
+                    GamePad.hardwareControls["axes"][hardwareAxis]["bindedTo"] = bindedTo
 
         for hardwareButton, data in hardwareButtons.items():
             Debug.Log(f"Loading {hardwareButtons}...")
@@ -1054,14 +1054,14 @@ class Gamepad(AddonFoundations):
                 bindedTo = data["bindedTo"]
                 getter = data["getter"]
 
-                result = Controls.BindButton("Gamepad", bindedTo, hardwareButton, getter)
+                result = Controls.BindButton("GamePad", bindedTo, hardwareButton, getter)
                 if(result != Execution.Passed):
                     Debug.Warn(f"Failed to bind {hardwareButton} to {bindedTo} as Kontrol")
-                    Gamepad.hardwareControls["buttons"][hardwareButton]["binded"] = False,
-                    Gamepad.hardwareControls["buttons"][hardwareButton]["bindedTo"] = None
+                    GamePad.hardwareControls["buttons"][hardwareButton]["binded"] = False,
+                    GamePad.hardwareControls["buttons"][hardwareButton]["bindedTo"] = None
                 else:
-                    Gamepad.hardwareControls["buttons"][hardwareButton]["binded"] = True,
-                    Gamepad.hardwareControls["buttons"][hardwareButton]["bindedTo"] = bindedTo
+                    GamePad.hardwareControls["buttons"][hardwareButton]["binded"] = True,
+                    GamePad.hardwareControls["buttons"][hardwareButton]["bindedTo"] = bindedTo
 
         Debug.End()
         return Execution.Passed
@@ -1074,7 +1074,7 @@ class Gamepad(AddonFoundations):
             Does not save it tho.
         """
         Debug.Start("_AddNewProfile")
-        Gamepad.profileData.jsonData["saved-profiles"][nameOfProfile] = profileExample
+        GamePad.profileData.jsonData["saved-profiles"][nameOfProfile] = profileExample
         Debug.Log(f"Default parameters set for {nameOfProfile}")
         Debug.End()
         return Execution.Passed
@@ -1087,7 +1087,7 @@ class Gamepad(AddonFoundations):
         """
         Debug.Start("_DoesProfileExist")
 
-        profiles = Gamepad.profileData.jsonData["saved-profiles"]
+        profiles = GamePad.profileData.jsonData["saved-profiles"]
 
         if nameOfProfile in profiles:
             Debug.Log(f"{nameOfProfile} is already in the JSON")
@@ -1111,13 +1111,13 @@ class Gamepad(AddonFoundations):
         """
         Debug.Start("_PutBindsInProfile")
         Debug.Log(f"Updating {profileToSaveBinds}'s bindings")
-        for axis in Gamepad.profileData.jsonData["saved-profiles"][profileToSaveBinds]["hardware"]["axes"]:
-            Gamepad.profileData.jsonData["saved-profiles"][profileToSaveBinds]["hardware"]["axes"][axis]["binded"] = Gamepad.hardwareControls["axes"][axis]["binded"]
-            Gamepad.profileData.jsonData["saved-profiles"][profileToSaveBinds]["hardware"]["axes"][axis]["bindedTo"] = Gamepad.hardwareControls["axes"][axis]["bindedTo"]
+        for axis in GamePad.profileData.jsonData["saved-profiles"][profileToSaveBinds]["hardware"]["axes"]:
+            GamePad.profileData.jsonData["saved-profiles"][profileToSaveBinds]["hardware"]["axes"][axis]["binded"] = GamePad.hardwareControls["axes"][axis]["binded"]
+            GamePad.profileData.jsonData["saved-profiles"][profileToSaveBinds]["hardware"]["axes"][axis]["bindedTo"] = GamePad.hardwareControls["axes"][axis]["bindedTo"]
         
-        for button in Gamepad.profileData.jsonData["saved-profiles"][profileToSaveBinds]["hardware"]["buttons"]:
-            Gamepad.profileData.jsonData["saved-profiles"][profileToSaveBinds]["hardware"]["buttons"][button]["binded"] = Gamepad.hardwareControls["buttons"][button]["binded"]
-            Gamepad.profileData.jsonData["saved-profiles"][profileToSaveBinds]["hardware"]["buttons"][button]["bindedTo"] = Gamepad.hardwareControls["buttons"][button]["bindedTo"]
+        for button in GamePad.profileData.jsonData["saved-profiles"][profileToSaveBinds]["hardware"]["buttons"]:
+            GamePad.profileData.jsonData["saved-profiles"][profileToSaveBinds]["hardware"]["buttons"][button]["binded"] = GamePad.hardwareControls["buttons"][button]["binded"]
+            GamePad.profileData.jsonData["saved-profiles"][profileToSaveBinds]["hardware"]["buttons"][button]["bindedTo"] = GamePad.hardwareControls["buttons"][button]["bindedTo"]
         Debug.End()
     # -----------------------------------
     def VerifyForExecution() -> Execution:
@@ -1143,7 +1143,7 @@ class Gamepad(AddonFoundations):
             # Debug.End()
             # return Execution.Incompatibility
 
-        result = Gamepad._InitializeProfileJson()
+        result = GamePad._InitializeProfileJson()
         if(result != Execution.Passed):
             Debug.Error("JSON could not be created and loaded.")
             Debug.End()
