@@ -343,6 +343,7 @@ class GamePad(AddonFoundations):
                 # return Execution.Failed
             Debug.Log("GamePad is now OFF")
             GamePad.profileData.SaveFile()
+            GamePad.UnloadProfile()
             GamePad.state = False
             Debug.End()
             return Execution.Passed
