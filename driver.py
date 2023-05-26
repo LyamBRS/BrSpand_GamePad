@@ -295,6 +295,14 @@ class GamePad(AddonFoundations):
 
         Debug.Log("Checking if we need to load in a current profile.")
         profileName = ProfileHandler.currentName
+
+        from kivymd.uix.dialog import MDDialog
+        dialog = MDDialog(
+            title="Debug",
+            text=f"loading: {profileName}"
+                )
+        dialog.open()
+
         if(profileName != None):
             GamePad.loadedProfileName = profileName
             GamePad.LoadProfile(profileName)
@@ -343,7 +351,7 @@ class GamePad(AddonFoundations):
                 # return Execution.Failed
             Debug.Log("GamePad is now OFF")
             GamePad.profileData.SaveFile()
-            GamePad.UnloadProfile()
+            GamePad.UnloadProfile(GamePad.loadedProfileName)
             GamePad.state = False
             Debug.End()
             return Execution.Passed
