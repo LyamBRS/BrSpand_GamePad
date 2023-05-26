@@ -911,12 +911,12 @@ class GamePad(AddonFoundations):
             local dictionaries as well as from
             the Controls class.
         """
-        Debug.Start("_BindAxis")
+        Debug.Start("_BindButton")
 
         Debug.Log(f"Binding {nameOfHardwareButton} to {nameOfHardwareButton} in Controls class.")
-        result = Controls.BindButton("GamePad", nameOfHardwareButton, nameOfHardwareButton, GamePad.hardwareControls["buttons"][nameOfHardwareButton]["getter"])
+        result = Controls.BindButton("GamePad", nameOfHardwareButton, nameOfSoftwareButton, GamePad.hardwareControls["buttons"][nameOfHardwareButton]["getter"])
         if(result != Execution.Passed):
-            Debug.Log(f"Failed to bind {nameOfHardwareButton} to {nameOfHardwareButton} with error code: {result}")
+            Debug.Log(f"Failed to bind {nameOfHardwareButton} to {nameOfSoftwareButton} with error code: {result}")
             Debug.End()
             return result
 
@@ -963,8 +963,8 @@ class GamePad(AddonFoundations):
         """
         Debug.Start("_WhoHasThatButtonBinded")
 
-        for hardwareButton, axisData in GamePad.hardwareControls["buttons"].items():
-            if(axisData["bindedTo"] == nameOfSoftwareButton):
+        for hardwareButton, buttonData in GamePad.hardwareControls["buttons"].items():
+            if(buttonData["bindedTo"] == nameOfSoftwareButton):
                 Debug.Log(f"{nameOfSoftwareButton} is binded to {hardwareButton}")
                 Debug.End()
                 return hardwareButton
