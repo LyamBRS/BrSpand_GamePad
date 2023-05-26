@@ -51,55 +51,61 @@ _EmptyJsonStructure:dict = {
     }
 }
 
+def FakeButtonCallBack(*args):
+    return True
+
+def FakeAxisCallback(*args):
+    return 1
+
 hardwareControlsTemplate:dict = {
                         "axes" : { 
                                 "left-x-positive" : {  "binded" : False, 
                                                   "bindedTo" : None,
-                                                  "getter" : ADXL343.GetValue_X_Positive},
+                                                  "getter" : FakeAxisCallback},
                                 "left-x-negative" : { "binded" : False, 
                                                  "bindedTo" : None,
-                                                 "getter" : ADXL343.GetValue_X_Negative},
+                                                 "getter" : FakeAxisCallback},
                                 "left-y-positive" : {  "binded" : False, 
                                                   "bindedTo" : None,
-                                                  "getter" : ADXL343.GetValue_Y_Positive},
+                                                  "getter" : FakeAxisCallback},
                                 "left-y-negative" : { "binded" : False, 
                                                   "bindedTo" : None,
-                                                  "getter" : ADXL343.GetValue_Y_Negative},
+                                                  "getter" : FakeAxisCallback},
                                 "right-x-positive" : { "binded" : False, 
                                                   "bindedTo" : None,
-                                                  "getter" : ADXL343.GetValue_Z_Positive},
+                                                  "getter" : FakeAxisCallback},
                                 "right-x-negative" : { "binded" : False, 
                                                   "bindedTo" : None,
-                                                  "getter" : ADXL343.GetValue_Z_Negative},
+                                                  "getter" : FakeAxisCallback},
                                 "right-y-positive" : { "binded" : False, 
                                                   "bindedTo" : None,
-                                                  "getter" : ADXL343.GetValue_Z_Positive},
+                                                  "getter" : FakeAxisCallback},
                                 "right-y-negative" : { "binded" : False, 
                                                   "bindedTo" : None,
-                                                  "getter" : ADXL343.GetValue_Z_Negative}
+                                                  "getter" : FakeAxisCallback}
                         },
                         "buttons" : {
                                     "left-joystick-button" : {  "binded" : False, 
                                                                 "bindedTo" : None,
-                                                                "getter" : None},
+                                                                "getter" : FakeButtonCallBack},
                                     "right-joystick-button" : {  "binded" : False, 
                                                                 "bindedTo" : None,
-                                                                "getter" : None},
+                                                                "getter" : FakeButtonCallBack},
                                     "switch1" : {  "binded" : False, 
                                                     "bindedTo" : None,
-                                                    "getter" : None},
+                                                    "getter" : FakeButtonCallBack},
                                     "switch2" : { "binded" : False, 
                                                     "bindedTo" : None,
-                                                    "getter" : None},
+                                                    "getter" : FakeButtonCallBack},
                                     "switch3" : { "binded" : False, 
                                                     "bindedTo" : None,
-                                                    "getter" : None},
+                                                    "getter" : FakeButtonCallBack},
                                     "switch4" : { "binded" : False, 
                                                     "bindedTo" : None,
-                                                    "getter" : None},
+                                                    "getter" : FakeButtonCallBack},
                                     "switch5" : { "binded" : False, 
                                                     "bindedTo" : None,
-                                                    "getter" : None}
+                                                    "getter" : FakeButtonCallBack}
                         } 
 }
 
@@ -337,6 +343,7 @@ class Gamepad(AddonFoundations):
                 # return Execution.Failed
             Debug.Log("Gamepad is now OFF")
             Gamepad.profileData.SaveFile()
+            Gamepad.state = False
             Debug.End()
             return Execution.Passed
         else:
