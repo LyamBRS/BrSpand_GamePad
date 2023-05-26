@@ -296,12 +296,12 @@ class GamePad(AddonFoundations):
         Debug.Log("Checking if we need to load in a current profile.")
         profileName = ProfileHandler.currentName
 
-        from kivymd.uix.dialog import MDDialog
-        dialog = MDDialog(
-            title="Debug",
-            text=f"loading: {profileName}"
-                )
-        dialog.open()
+        # from kivymd.uix.dialog import MDDialog
+        # dialog = MDDialog(
+            # title="Debug",
+            # text=f"loading: {profileName}"
+                # )
+        # dialog.open()
 
         if(profileName != None):
             GamePad.loadedProfileName = profileName
