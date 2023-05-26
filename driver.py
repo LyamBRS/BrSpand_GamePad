@@ -39,6 +39,7 @@ from Libraries.BRS_Python_Libraries.BRS.Hardware.UART.receiver import UART
 #region ------------------------------------------------------ KivyMD
 # LoadingLog.Import('KivyMD')
 #endregion
+from Programs.Local.FileHandler.Profiles import ProfileHandler
 #====================================================================#
 # Variables
 #====================================================================#
@@ -285,6 +286,12 @@ class Gamepad(AddonFoundations):
             ChangeButtonBinding= Gamepad.ChangeButtonBinding,
             ChangeAxisBinding= Gamepad.ChangeAxisBinding
         )
+
+        Debug.Log("Checking if we need to load in a current profile.")
+        profileName = ProfileHandler.currentName
+        if(profileName != None):
+            Gamepad.loadedProfileName = profileName
+            Gamepad.LoadProfile(profileName)
 
         result = Gamepad.VerifyForExecution()
         if(result != Execution.Passed):
