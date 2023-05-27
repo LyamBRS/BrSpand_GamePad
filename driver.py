@@ -32,6 +32,7 @@ from Libraries.BRS_Python_Libraries.BRS.Utilities.FileHandler import JSONdata, A
 from Libraries.BRS_Python_Libraries.BRS.Utilities.addons import AddonFoundations, AddonInfoHandler, AddonEnum
 from Libraries.BRS_Python_Libraries.BRS.PnP.controls import Controls
 from Libraries.BRS_Python_Libraries.BRS.Hardware.UART.receiver import UART
+from BrSpand.Drivers.GamePad import BFIODriver
 #endregion
 #region -------------------------------------------------------- Kivy
 # LoadingLog.Import("Kivy")
