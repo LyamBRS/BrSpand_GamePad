@@ -13,6 +13,7 @@
 # Loading Logs
 #====================================================================#
 from Libraries.BRS_Python_Libraries.BRS.Debug.LoadingLog import LoadingLog
+from Libraries.BRS_Python_Libraries.BRS.Utilities.bfio import BFIO
 LoadingLog.Start("driver.py")
 #====================================================================#
 # Imports
@@ -29,10 +30,11 @@ from Libraries.BRS_Python_Libraries.BRS.Utilities.Enums import Execution
 from Libraries.BRS_Python_Libraries.BRS.Utilities.Information import Information
 from Libraries.BRS_Python_Libraries.BRS.Debug.consoleLog import Debug
 from Libraries.BRS_Python_Libraries.BRS.Utilities.FileHandler import JSONdata, AppendPath
+from Libraries.BRS_Python_Libraries.BRS.Utilities.LanguageHandler import _
 from Libraries.BRS_Python_Libraries.BRS.Utilities.addons import AddonFoundations, AddonInfoHandler, AddonEnum
 from Libraries.BRS_Python_Libraries.BRS.PnP.controls import Controls
 from Libraries.BRS_Python_Libraries.BRS.Hardware.UART.receiver import UART
-from BrSpand.Drivers.GamePad import BFIODriver
+from BrSpand.Drivers.GamePad.BFIO import BFIODriver
 #endregion
 #region -------------------------------------------------------- Kivy
 # LoadingLog.Import("Kivy")
@@ -59,105 +61,105 @@ def FakeAxisCallback(*args):
     return 1
 
 hardwareControlsTemplate:dict = {
-                        "axes" : { 
-                                "left-x-positive" : {  "binded" : False, 
+                        "axes" : {
+                                "left-x-positive" : {  "binded" : False,
                                                   "bindedTo" : None,
-                                                  "getter" : FakeAxisCallback},
-                                "left-x-negative" : { "binded" : False, 
+                                                  "getter" : BFIODriver.Get_LeftJoystickXPositive},
+                                "left-x-negative" : { "binded" : False,
                                                  "bindedTo" : None,
-                                                 "getter" : FakeAxisCallback},
-                                "left-y-positive" : {  "binded" : False, 
+                                                 "getter" : BFIODriver.Get_LeftJoystickXNegative},
+                                "left-y-positive" : {  "binded" : False,
                                                   "bindedTo" : None,
-                                                  "getter" : FakeAxisCallback},
-                                "left-y-negative" : { "binded" : False, 
+                                                  "getter" : BFIODriver.Get_LeftJoystickYPositive},
+                                "left-y-negative" : { "binded" : False,
                                                   "bindedTo" : None,
-                                                  "getter" : FakeAxisCallback},
-                                "right-x-positive" : { "binded" : False, 
+                                                  "getter" : BFIODriver.Get_LeftJoystickYNegative},
+                                "right-x-positive" : { "binded" : False,
                                                   "bindedTo" : None,
-                                                  "getter" : FakeAxisCallback},
-                                "right-x-negative" : { "binded" : False, 
+                                                  "getter" : BFIODriver.Get_RightJoystickXPositive},
+                                "right-x-negative" : { "binded" : False,
                                                   "bindedTo" : None,
-                                                  "getter" : FakeAxisCallback},
-                                "right-y-positive" : { "binded" : False, 
+                                                  "getter" : BFIODriver.Get_RightJoystickXNegative},
+                                "right-y-positive" : { "binded" : False,
                                                   "bindedTo" : None,
-                                                  "getter" : FakeAxisCallback},
-                                "right-y-negative" : { "binded" : False, 
+                                                  "getter" : BFIODriver.Get_RightJoystickYPositive},
+                                "right-y-negative" : { "binded" : False,
                                                   "bindedTo" : None,
-                                                  "getter" : FakeAxisCallback}
+                                                  "getter" : BFIODriver.Get_RightJoystickYNegative}
                         },
                         "buttons" : {
-                                    "left-joystick-button" : {  "binded" : False, 
+                                    "left-joystick-button" : {  "binded" : False,
                                                                 "bindedTo" : None,
-                                                                "getter" : FakeButtonCallBack},
-                                    "right-joystick-button" : {  "binded" : False, 
+                                                                "getter" : BFIODriver.Get_LeftJoystickButton},
+                                    "right-joystick-button" : {  "binded" : False,
                                                                 "bindedTo" : None,
-                                                                "getter" : FakeButtonCallBack},
-                                    "switch1" : {  "binded" : False, 
+                                                                "getter" : BFIODriver.Get_RightJoystickButton},
+                                    "switch1" : {  "binded" : False,
                                                     "bindedTo" : None,
-                                                    "getter" : FakeButtonCallBack},
-                                    "switch2" : { "binded" : False, 
+                                                    "getter" : BFIODriver.Get_Switch1},
+                                    "switch2" : { "binded" : False,
                                                     "bindedTo" : None,
-                                                    "getter" : FakeButtonCallBack},
-                                    "switch3" : { "binded" : False, 
+                                                    "getter" : BFIODriver.Get_Switch2},
+                                    "switch3" : { "binded" : False,
                                                     "bindedTo" : None,
-                                                    "getter" : FakeButtonCallBack},
-                                    "switch4" : { "binded" : False, 
+                                                    "getter" : BFIODriver.Get_Switch3},
+                                    "switch4" : { "binded" : False,
                                                     "bindedTo" : None,
-                                                    "getter" : FakeButtonCallBack},
-                                    "switch5" : { "binded" : False, 
+                                                    "getter" : BFIODriver.Get_Switch4},
+                                    "switch5" : { "binded" : False,
                                                     "bindedTo" : None,
-                                                    "getter" : FakeButtonCallBack}
-                        } 
+                                                    "getter" : BFIODriver.Get_Switch5}
+                        }
 }
 
 profileExample = {
     "hardware" : {
                     "axes" : { 
-                                "left-x-positive" : {  "binded" : False, 
+                                "left-x-positive" : {  "binded" : False,
                                                   "bindedTo" : None,
                                                   "getter" : None},
-                                "left-x-negative" : { "binded" : False, 
+                                "left-x-negative" : { "binded" : False,
                                                  "bindedTo" : None,
                                                  "getter" : None},
-                                "left-y-positive" : {  "binded" : False, 
+                                "left-y-positive" : {  "binded" : False,
                                                   "bindedTo" : None,
                                                   "getter" : None},
-                                "left-y-negative" : { "binded" : False, 
+                                "left-y-negative" : { "binded" : False,
                                                   "bindedTo" : None,
                                                   "getter" : None},
-                                "right-x-positive" : { "binded" : False, 
+                                "right-x-positive" : { "binded" : False,
                                                   "bindedTo" : None,
                                                   "getter" : None},
-                                "right-x-negative" : { "binded" : False, 
+                                "right-x-negative" : { "binded" : False,
                                                   "bindedTo" : None,
                                                   "getter" : None},
-                                "right-y-positive" : { "binded" : False, 
+                                "right-y-positive" : { "binded" : False,
                                                   "bindedTo" : None,
                                                   "getter" : None},
-                                "right-y-negative" : { "binded" : False, 
+                                "right-y-negative" : { "binded" : False,
                                                   "bindedTo" : None,
                                                   "getter" : None}
                             },
                     "buttons" : {
-                                "left-joystick-button" : {  "binded" : False, 
+                                "left-joystick-button" : {  "binded" : False,
                                                             "bindedTo" : None,
                                                             "getter" : None},
-                                "right-joystick-button" : {  "binded" : False, 
+                                "right-joystick-button" : {  "binded" : False,
                                                             "bindedTo" : None,
                                                             "getter" : None},
-                                "switch1" : {  "binded" : False, 
+                                "switch1" : {  "binded" : False,
                                                   "bindedTo" : None,
                                                   "getter" : None},
-                                "switch2" : { "binded" : False, 
+                                "switch2" : { "binded" : False,
                                                   "bindedTo" : None,
                                                   "getter" : None},
-                                "switch3" : { "binded" : False, 
+                                "switch3" : { "binded" : False,
                                                   "bindedTo" : None,
                                                   "getter" : None},
-                                "switch4" : { "binded" : False, 
+                                "switch4" : { "binded" : False,
                                                   "bindedTo" : None,
                                                   "getter" : None},
-                                "switch5" : { "binded" : False, 
+                                "switch5" : { "binded" : False,
                                                   "bindedTo" : None,
                                                   "getter" : None}
                     } 
@@ -189,52 +191,52 @@ class GamePad(AddonFoundations):
         "axes" : {
                     "left-x-positive" : {  "binded" : False,
                                         "bindedTo" : None,
-                                        "getter" : FakeAxisCallback},
+                                        "getter" : BFIODriver.Get_LeftJoystickXPositive},
                     "left-x-negative" : { "binded" : False,
                                         "bindedTo" : None,
-                                        "getter" : FakeAxisCallback},
+                                        "getter" : BFIODriver.Get_LeftJoystickXNegative},
                     "left-y-positive" : {  "binded" : False,
                                         "bindedTo" : None,
-                                        "getter" : FakeAxisCallback},
+                                        "getter" : BFIODriver.Get_LeftJoystickYPositive},
                     "left-y-negative" : { "binded" : False,
                                         "bindedTo" : None,
-                                        "getter" : FakeAxisCallback},
+                                        "getter" : BFIODriver.Get_LeftJoystickYNegative},
                     "right-x-positive" : { "binded" : False,
                                         "bindedTo" : None,
-                                        "getter" : FakeAxisCallback},
+                                        "getter" : BFIODriver.Get_RightJoystickXPositive},
                     "right-x-negative" : { "binded" : False,
                                         "bindedTo" : None,
-                                        "getter" : FakeAxisCallback},
+                                        "getter" : BFIODriver.Get_RightJoystickXNegative},
                     "right-y-positive" : { "binded" : False,
                                         "bindedTo" : None,
-                                        "getter" : FakeAxisCallback},
+                                        "getter" : BFIODriver.Get_RightJoystickYPositive},
                     "right-y-negative" : { "binded" : False,
                                         "bindedTo" : None,
-                                        "getter" : FakeAxisCallback}
+                                        "getter" : BFIODriver.Get_RightJoystickYNegative}
                  },
                     "buttons" : {
-                                "left-joystick-button" : {  "binded" : False, 
+                                "left-joystick-button" : {  "binded" : False,
                                                             "bindedTo" : None,
-                                                            "getter" : FakeButtonCallBack},
-                                "right-joystick-button" : {  "binded" : False, 
+                                                            "getter" : BFIODriver.Get_LeftJoystickButton},
+                                "right-joystick-button" : {  "binded" : False,
                                                             "bindedTo" : None,
-                                                            "getter" : FakeButtonCallBack},
-                                "switch1" : {  "binded" : False, 
+                                                            "getter" : BFIODriver.Get_RightJoystickButton},
+                                "switch1" : {  "binded" : False,
                                                 "bindedTo" : None,
-                                                "getter" : FakeButtonCallBack},
-                                "switch2" : { "binded" : False, 
+                                                "getter" : BFIODriver.Get_Switch1},
+                                "switch2" : { "binded" : False,
                                                 "bindedTo" : None,
-                                                "getter" : FakeButtonCallBack},
-                                "switch3" : { "binded" : False, 
+                                                "getter" : BFIODriver.Get_Switch2},
+                                "switch3" : { "binded" : False,
                                                 "bindedTo" : None,
-                                                "getter" : FakeButtonCallBack},
-                                "switch4" : { "binded" : False, 
+                                                "getter" : BFIODriver.Get_Switch3},
+                                "switch4" : { "binded" : False,
                                                 "bindedTo" : None,
-                                                "getter" : FakeButtonCallBack},
-                                "switch5" : { "binded" : False, 
+                                                "getter" : BFIODriver.Get_Switch4},
+                                "switch5" : { "binded" : False,
                                                 "bindedTo" : None,
-                                                "getter" : FakeButtonCallBack}
-                    } 
+                                                "getter" : BFIODriver.Get_Switch5}
+                    }
     }
 
     loadedProfileName:str = None
@@ -297,7 +299,7 @@ class GamePad(AddonFoundations):
         Debug.Log("Checking if we need to load in a current profile.")
         profileName = ProfileHandler.currentName
 
-        # from kivymd.uix.dialog import MDDialog
+        from kivymd.uix.dialog import MDDialog
         # dialog = MDDialog(
             # title="Debug",
             # text=f"loading: {profileName}"
@@ -323,6 +325,18 @@ class GamePad(AddonFoundations):
             Debug.End()
             return Execution.Failed
 
+        result = BFIODriver.StartDriver()
+        if(result != Execution.Passed):
+            Debug.Error("Failed to start backend driver UART")
+            GamePad.addonInformation.DockAddonToApplication(False)
+            dialog = MDDialog(
+                title=_("GamePad Driver Error"),
+                text=_("GamePad failed to start its BFIO Drivers. Kontrol will not be able to gather inputs from the connected GamePad")
+                )
+            dialog.open()
+            Debug.End()
+            return Execution.Failed
+
         Debug.Log("Addon started successfully.")
         Debug.Log("Adding addon to application...")
         GamePad.addonInformation.DockAddonToApplication(True)
@@ -345,11 +359,11 @@ class GamePad(AddonFoundations):
 
         if(GamePad.state == True):
             Debug.Log("Stopping Reader")
-            # result = ADXL343.StopDriver()
-            # if(result != Execution.Passed):
-                # Debug.Error("Error when trying to stop GamePad")
-                # Debug.End()
-                # return Execution.Failed
+            result = BFIODriver.StopDriver()
+            if(result != Execution.Passed):
+                Debug.Error("Failed to stop BFIODrivers")
+                Debug.End()
+                return Execution.Failed
             Debug.Log("GamePad is now OFF")
             GamePad.profileData.SaveFile()
             GamePad.UnloadProfile(GamePad.loadedProfileName)
