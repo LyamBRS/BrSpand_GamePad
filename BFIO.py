@@ -385,7 +385,7 @@ class BFIODriver:
     #endregion
 
     #region ----------------------------------- Getter - Buttons
-    def Get_LeftJoystickButton() -> float:
+    def Get_LeftJoystickButton() -> bool:
         """
             Get_LeftJoystickButton:
             ==========================
@@ -402,7 +402,7 @@ class BFIODriver:
         else:
             return False
 
-    def Get_RightJoystickButton() -> float:
+    def Get_RightJoystickButton() -> bool:
         """
             Get_RightJoystickButton:
             ==========================
@@ -419,7 +419,7 @@ class BFIODriver:
         else:
             return False
 
-    def Get_Switch1() -> float:
+    def Get_Switch1() -> bool:
         """
             Get_Switch1:
             ============
@@ -436,7 +436,7 @@ class BFIODriver:
         else:
             return False
 
-    def Get_Switch2() -> float:
+    def Get_Switch2() -> bool:
         """
             Get_Switch2:
             ============
@@ -453,7 +453,7 @@ class BFIODriver:
         else:
             return False
 
-    def Get_Switch3() -> float:
+    def Get_Switch3() -> bool:
         """
             Get_Switch3:
             ============
@@ -470,7 +470,7 @@ class BFIODriver:
         else:
             return False
 
-    def Get_Switch4() -> float:
+    def Get_Switch4() -> bool:
         """
             Get_Switch4:
             ============
@@ -487,7 +487,7 @@ class BFIODriver:
         else:
             return False
 
-    def Get_Switch5() -> float:
+    def Get_Switch5() -> bool:
         """
             Get_Switch5:
             ============
