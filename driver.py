@@ -301,10 +301,6 @@ class GamePad(AddonFoundations):
 
         from kivymd.uix.dialog import MDDialog
 
-        if(profileName != None):
-            GamePad.loadedProfileName = profileName
-            GamePad.LoadProfile(profileName)
-
         result = GamePad.VerifyForExecution()
         if(result != Execution.Passed):
             Debug.Error("The BrSpand card cannot run on your device.")
@@ -346,6 +342,11 @@ class GamePad(AddonFoundations):
         Debug.Log("Adding addon to application...")
         GamePad.addonInformation.DockAddonToApplication(True)
         GamePad.state = True
+
+        if(profileName != None):
+            GamePad.loadedProfileName = profileName
+            GamePad.LoadProfile(profileName)
+
         Debug.End()
         return Execution.Passed
     # -----------------------------------
