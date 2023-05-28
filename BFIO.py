@@ -19,7 +19,7 @@
 from Libraries.BRS_Python_Libraries.BRS.Hardware.UART.receiver import UART
 from Libraries.BRS_Python_Libraries.BRS.Utilities.Information import Information
 from Libraries.BRS_Python_Libraries.BRS.Debug.LoadingLog import LoadingLog
-from Libraries.BRS_Python_Libraries.BRS.Utilities.bfio import Plane
+from Libraries.BRS_Python_Libraries.BRS.Utilities.bfio import BFIO, NewArrival, Passenger, Plane
 LoadingLog.Start("BFIODriver.py")
 #====================================================================#
 # Imports
@@ -60,11 +60,15 @@ class BFIODriver:
         Backend driver that reads at fasts intervals the
         UART threads handled by BrSpand ports drivers.
         Its goal is to send planes to Gamepad as fast
-        as possible.
+        as possible to get as many hardware readout in
+        the least amount of time in order to update
+        getter functions that are called by hardware
+        binders in Kontrol's Control menu.
     """
     thread = None
     stopEvent = threading.Event()
     isStarted: bool = False
+    errorMessage:str = ""
 
     _realLeftJoystickX = 0
     _realLeftJoystickY = 0
@@ -79,6 +83,7 @@ class BFIODriver:
     _realSwitch4 = False
     _realSwitch5 = False
 
+    extractedPlane:NewArrival = None
 
     leftJoystickPositiveX:float = 0
     """ The saved left joystick value for its X axis in the positive. (0-1) """
@@ -121,6 +126,7 @@ class BFIODriver:
         from Libraries.BRS_Python_Libraries.BRS.Utilities.bfio import BFIO, NewArrival, PassengerTypes, MandatoryPlaneIDs
         ################################################
         receivedAPlane:bool = False
+        uartError:bool = False
 
         while True:
 
@@ -132,17 +138,27 @@ class BFIODriver:
             ###########################################
             time.sleep(0.040) # Gamepad sends 37 bytes at 9600 bauds meaning 31ms of TX time
             ###########################################
-            receivedPlane:NewArrival = UART.GetOldestReceivedGroupOfPassengers()
+            receivedPlane:Passenger = UART.GetOldestReceivedGroupOfPassengers()
             if(receivedPlane != None):
-                if(receivedPlane.planeID == 20):
-                    # This is an hardware readout! Youpii
-                    receivedAPlane = True
-                    receivedPlane = NewArrival(receivedPlane, hardwareVarTypes)
+                if(receivedPlane != Execution.Failed):
+                    if(receivedPlane[0].value_8bits[1] == 20):
+                        # This is an hardware readout! Youpii
+                        receivedAPlane = True
+                        receivedPlane = NewArrival(receivedPlane, hardwareVarTypes)
+                else:
+                    uartError = True
             ###########################################
 
             with uartClass._lock:
+
+                if(uartError == True):
+                    uartClass.isStarted = False
+                    uartClass.errorMessage = "UART class is not started."
+
                 if(receivedAPlane):
                     receivedAPlane = False
+
+                    uartClass.extractedPlane = receivedPlane
 
                     uartClass._realLeftJoystickX        = receivedPlane.GetParameter(0)
                     uartClass._realLeftJoystickY        = receivedPlane.GetParameter(1)
@@ -183,6 +199,7 @@ class BFIODriver:
             return Execution.Incompatibility
 
         if BFIODriver.isStarted == False:
+            BFIODriver.errorMessage = ""
             if not BFIODriver.thread or not BFIODriver.thread.is_alive():
                 BFIODriver.stopEvent.clear()
                 BFIODriver.thread = threading.Thread(target=BFIODriver._handlingThread, args=(BFIODriver,UART,))
@@ -397,8 +414,8 @@ class BFIODriver:
             class is not started.
         """
         if(BFIODriver.isStarted):
-            button = BFIODriver._realLeftJoystickButton
-            BFIODriver.leftJoystickButton = button
+            BFIODriver.leftJoystickButton = BFIODriver._realLeftJoystickButton
+            return BFIODriver.leftJoystickButton
         else:
             return False
 
@@ -414,8 +431,8 @@ class BFIODriver:
             class is not started.
         """
         if(BFIODriver.isStarted):
-            button = BFIODriver._realRightJoystickButton
-            BFIODriver.rightJoystickButton = button
+            BFIODriver.rightJoystickButton = BFIODriver._realRightJoystickButton
+            return BFIODriver.rightJoystickButton
         else:
             return False
 
@@ -431,8 +448,8 @@ class BFIODriver:
             class is not started.
         """
         if(BFIODriver.isStarted):
-            button = BFIODriver._realSwitch1
-            BFIODriver.switch1 = button
+            BFIODriver.switch1 = BFIODriver._realSwitch1
+            return BFIODriver.switch1
         else:
             return False
 
@@ -448,8 +465,8 @@ class BFIODriver:
             class is not started.
         """
         if(BFIODriver.isStarted):
-            button = BFIODriver._realSwitch2
-            BFIODriver.switch2 = button
+            BFIODriver.switch2 = BFIODriver._realSwitch2
+            return BFIODriver.switch2
         else:
             return False
 
@@ -465,8 +482,8 @@ class BFIODriver:
             class is not started.
         """
         if(BFIODriver.isStarted):
-            button = BFIODriver._realSwitch3
-            BFIODriver.switch3 = button
+            BFIODriver.switch3 = BFIODriver._realSwitch3
+            return BFIODriver.switch3
         else:
             return False
 
@@ -482,8 +499,8 @@ class BFIODriver:
             class is not started.
         """
         if(BFIODriver.isStarted):
-            button = BFIODriver._realSwitch4
-            BFIODriver.switch4 = button
+            BFIODriver.switch4 = BFIODriver._realSwitch4
+            return BFIODriver.switch4
         else:
             return False
 
@@ -499,8 +516,8 @@ class BFIODriver:
             class is not started.
         """
         if(BFIODriver.isStarted):
-            button = BFIODriver._realSwitch5
-            BFIODriver.switch5 = button
+            BFIODriver.switch5 = BFIODriver._realSwitch5
+            return BFIODriver.switch5
         else:
             return False
     #endregion
