@@ -942,7 +942,7 @@ class GamePad(AddonFoundations):
         """
         Debug.Start("_BindButton")
 
-        Debug.Log(f"Binding {nameOfHardwareButton} to {nameOfHardwareButton} in Controls class.")
+        Debug.Log(f"Binding {nameOfHardwareButton} to {nameOfSoftwareButton} in Controls class.")
         result = Controls.BindButton("GamePad", nameOfSoftwareButton, nameOfHardwareButton, GamePad.hardwareControls["buttons"][nameOfHardwareButton]["getter"])
         if(result != Execution.Passed):
             Debug.Log(f"Failed to bind {nameOfHardwareButton} to {nameOfSoftwareButton} with error code: {result}")
@@ -950,8 +950,8 @@ class GamePad(AddonFoundations):
             return result
 
         GamePad.hardwareControls["buttons"][nameOfHardwareButton]["binded"] = True
-        GamePad.hardwareControls["buttons"][nameOfHardwareButton]["bindedTo"] = nameOfHardwareButton
-        Debug.Log(f"{nameOfHardwareButton} is now binded to {nameOfHardwareButton}.")
+        GamePad.hardwareControls["buttons"][nameOfHardwareButton]["bindedTo"] = nameOfSoftwareButton
+        Debug.Log(f"{nameOfHardwareButton} is now binded to {nameOfSoftwareButton}.")
 
         Debug.End()
         return Execution.Passed
