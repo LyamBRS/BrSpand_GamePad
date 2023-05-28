@@ -134,7 +134,8 @@ class BFIODriver:
                 break
 
             hardwareRequest = Plane(20, [], [])
-            UART.QueuePlaneOnTaxiway(hardwareRequest)
+            if(UART.planesTakingOff == 0):
+                UART.QueuePlaneOnTaxiway(hardwareRequest)
             ###########################################
             time.sleep(0.040) # Gamepad sends 37 bytes at 9600 bauds meaning 31ms of TX time
             ###########################################
