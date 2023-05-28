@@ -214,29 +214,29 @@ class GamePad(AddonFoundations):
                                         "bindedTo" : None,
                                         "getter" : BFIODriver.Get_RightJoystickYNegative}
                  },
-                    "buttons" : {
-                                "left-joystick-button" : {  "binded" : False,
+        "buttons" : {
+                    "left-joystick-button" : {  "binded" : False,
                                                             "bindedTo" : None,
                                                             "getter" : BFIODriver.Get_LeftJoystickButton},
-                                "right-joystick-button" : {  "binded" : False,
+                    "right-joystick-button" : {  "binded" : False,
                                                             "bindedTo" : None,
                                                             "getter" : BFIODriver.Get_RightJoystickButton},
-                                "switch1" : {  "binded" : False,
+                    "switch1" : {  "binded" : False,
                                                 "bindedTo" : None,
                                                 "getter" : BFIODriver.Get_Switch1},
-                                "switch2" : { "binded" : False,
+                    "switch2" : { "binded" : False,
                                                 "bindedTo" : None,
                                                 "getter" : BFIODriver.Get_Switch2},
-                                "switch3" : { "binded" : False,
+                    "switch3" : { "binded" : False,
                                                 "bindedTo" : None,
                                                 "getter" : BFIODriver.Get_Switch3},
-                                "switch4" : { "binded" : False,
+                    "switch4" : { "binded" : False,
                                                 "bindedTo" : None,
                                                 "getter" : BFIODriver.Get_Switch4},
-                                "switch5" : { "binded" : False,
+                    "switch5" : { "binded" : False,
                                                 "bindedTo" : None,
                                                 "getter" : BFIODriver.Get_Switch5}
-                    }
+        }
     }
 
     loadedProfileName:str = None
