@@ -162,7 +162,7 @@ profileExample = {
                                 "switch5" : { "binded" : False,
                                                   "bindedTo" : None,
                                                   "getter" : None}
-                    } 
+                    }
     },
     "actions" : {
 
@@ -300,11 +300,6 @@ class GamePad(AddonFoundations):
         profileName = ProfileHandler.currentName
 
         from kivymd.uix.dialog import MDDialog
-        # dialog = MDDialog(
-            # title="Debug",
-            # text=f"loading: {profileName}"
-                # )
-        # dialog.open()
 
         if(profileName != None):
             GamePad.loadedProfileName = profileName
@@ -314,6 +309,11 @@ class GamePad(AddonFoundations):
         if(result != Execution.Passed):
             Debug.Error("The BrSpand card cannot run on your device.")
             Debug.Log("Adding addon to application...")
+            dialog = MDDialog(
+                title=_("Verification error"),
+                text=_("This BrSpand card cannot run on your device due to some incompatibility errors.")
+                    )
+            dialog.open()
             GamePad.addonInformation.DockAddonToApplication(False)
             Debug.End()
             return result
@@ -322,6 +322,11 @@ class GamePad(AddonFoundations):
         if(result == Execution.Failed):
             Debug.Error("Failed to start backend driver UART")
             GamePad.addonInformation.DockAddonToApplication(False)
+            dialog = MDDialog(
+                title=_("Driver error"),
+                text=_("UART addons failed to start their drivers. It is unlikely that Kontrol will be able to communicate with GamePad")
+                    )
+            dialog.open()
             Debug.End()
             return Execution.Failed
 
