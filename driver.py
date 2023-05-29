@@ -363,11 +363,18 @@ class GamePad(AddonFoundations):
         """
         Debug.Start("GamePad -> Stop")
 
+        from kivymd.uix.dialog import MDDialog
+
         if(GamePad.state == True):
             Debug.Log("Stopping Reader")
             result = BFIODriver.StopDriver()
             if(result != Execution.Passed):
                 Debug.Error("Failed to stop BFIODrivers")
+                dialog = MDDialog(
+                    title=_("Stopping failure"),
+                    text=_("Kontrol failed to stop the BFIODriver.")
+                        )
+                dialog.open()
                 Debug.End()
                 return Execution.Failed
             Debug.Log("GamePad is now OFF")
