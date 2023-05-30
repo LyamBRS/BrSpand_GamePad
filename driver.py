@@ -712,7 +712,7 @@ class GamePad(AddonFoundations):
                 Debug.Error(f"Something went wrong when trying to bind {nameOfHardwareButton} to {nameOfSoftwareButton}")
                 dialog = MDDialog(
                     title=_("GamePad driver error"),
-                    text=_(f"715: Something went wrong when trying to bind {nameOfHardwareButton} to {nameOfSoftwareButton}")
+                    text=_(f"715: Something went wrong when trying to bind {nameOfHardwareButton} from {nameOfSoftwareButton}. result = {result}")
                         )
                 dialog.open()
                 Debug.End()
@@ -917,6 +917,11 @@ class GamePad(AddonFoundations):
         result = Controls.UnbindButton("GamePad", nameOfSoftwareButton=whatItsBindedTo)
         if(result != Execution.Passed):
             Debug.Log(f"Failed to unbind {nameOfHardwareButton} from {whatItsBindedTo}")
+            dialog = MDDialog(
+                title=_("GamePad driver error"),
+                text=_(f"922: Failed to unbind {nameOfHardwareButton} from {whatItsBindedTo}")
+                    )
+            dialog.open()
             Debug.End()
             return result
 
@@ -967,10 +972,10 @@ class GamePad(AddonFoundations):
         """
         Debug.Start("_UnbindSoftwareButton")
 
-        Debug.Log(f"Unbinding {nameOfHardwareButton} from {nameOfHardwareButton} in the Controls class.")
-        result = Controls.UnbindButton("GamePad", nameOfSoftwareButton=nameOfHardwareButton)
+        Debug.Log(f"Unbinding {nameOfHardwareButton} from {nameOfSoftwareButton} in the Controls class.")
+        result = Controls.UnbindButton("GamePad", nameOfSoftwareButton=nameOfSoftwareButton)
         if(result != Execution.Passed):
-            Debug.Log(f"Failed to unbind {nameOfHardwareButton} from {nameOfHardwareButton}")
+            Debug.Log(f"Failed to unbind {nameOfHardwareButton} from {nameOfSoftwareButton}")
             Debug.End()
             return result
 
