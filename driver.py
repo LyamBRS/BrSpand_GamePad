@@ -897,7 +897,7 @@ class GamePad(AddonFoundations):
         Debug.Start("_UnbindSoftwareButton")
 
         Debug.Log(f"Unbinding {nameOfHardwareButton} from {nameOfHardwareButton} in the Controls class.")
-        result = Controls.UnbindButton("GamePad", nameOfSoftwareAxis=nameOfHardwareButton)
+        result = Controls.UnbindButton("GamePad", nameOfSoftwareButton=nameOfHardwareButton)
         if(result != Execution.Passed):
             Debug.Log(f"Failed to unbind {nameOfHardwareButton} from {nameOfHardwareButton}")
             Debug.End()
