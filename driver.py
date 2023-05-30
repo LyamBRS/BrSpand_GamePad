@@ -442,6 +442,11 @@ class GamePad(AddonFoundations):
                 saved = GamePad.profileData.SaveFile()
                 if(not saved):
                     Debug.Error("Failed to save JSON file...")
+                    dialog = MDDialog(
+                    title=_("GamePad Driver Error"),
+                    text=_("447: Failed to save JSON file.")
+                    )
+                    dialog.open()
                     Debug.End()
                     return Execution.Failed
                 Debug.Log("Success")
@@ -452,6 +457,11 @@ class GamePad(AddonFoundations):
             result = GamePad._LoadProfileBindsInApplication()
             if(result != Execution.Passed):
                 Debug.Error(f"Failed to keybinds of {GamePad.loadedProfileName} into the Controls class.")
+                dialog = MDDialog(
+                title=_("GamePad Driver Error"),
+                text=_(f"462: Failed to keybinds of {GamePad.loadedProfileName} into the Controls class.")
+                )
+                dialog.open()
                 Debug.End()
                 return result
             
@@ -804,6 +814,11 @@ class GamePad(AddonFoundations):
             result = GamePad._UnbindSoftwareButton(nameOfSoftwareButton, whateverButtonHadItBinded)
             if(result != Execution.Passed):
                 Debug.Log(f"Error occured when unbinding {nameOfSoftwareButton}. Return code: {result}")
+                dialog = MDDialog(
+                title=_("GamePad Driver Error"),
+                text=_(f"819: Error occured when unbinding {nameOfSoftwareButton}. Return code: {result}")
+                )
+                dialog.open()
 
             Debug.Log("Updating profile with new informations.")
             GamePad._PutBindsInProfile(GamePad.loadedProfileName)
@@ -976,6 +991,11 @@ class GamePad(AddonFoundations):
         result = Controls.UnbindButton("GamePad", nameOfSoftwareButton=nameOfSoftwareButton)
         if(result != Execution.Passed):
             Debug.Log(f"Failed to unbind {nameOfHardwareButton} from {nameOfSoftwareButton}")
+            dialog = MDDialog(
+            title=_("GamePad Driver Error"),
+            text=_(f"991: Failed to unbind {nameOfHardwareButton} from {nameOfSoftwareButton}")
+            )
+            dialog.open()
             Debug.End()
             return result
 
@@ -1030,6 +1050,11 @@ class GamePad(AddonFoundations):
         result = Controls.BindButton("GamePad", nameOfSoftwareButton, nameOfHardwareButton, GamePad.hardwareControls["buttons"][nameOfHardwareButton]["getter"])
         if(result != Execution.Passed):
             Debug.Log(f"Failed to bind {nameOfHardwareButton} to {nameOfSoftwareButton} with error code: {result}")
+            dialog = MDDialog(
+            title=_("GamePad Driver Error"),
+            text=_(f"1055: Failed to bind {nameOfHardwareButton} to {nameOfSoftwareButton} with error code: {result}")
+            )
+            dialog.open()
             Debug.End()
             return result
 
