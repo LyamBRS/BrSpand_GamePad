@@ -84,6 +84,19 @@ class BFIODriver:
     _realSwitch5 = False
 
     extractedPlane:NewArrival = None
+    """
+        extractedPlane:
+        ===============
+        Summary:
+        --------
+        The last plane received by this class.
+        It is stored as a :ref:`NewArrival` and
+        contains all the hardware values of GamePad.
+        These values can be extracted as universal
+        float 0-1 values using Get_ functions provided
+        within this class. Avoid using this member other
+        than for debugging purposes. Defaults to `None`.
+    """
 
     leftJoystickPositiveX:float = 0
     """ The saved left joystick value for its X axis in the positive. (0-1) """
@@ -123,7 +136,7 @@ class BFIODriver:
 
     @staticmethod
     def _handlingThread(uartClass, UART:UART):
-        from Libraries.BRS_Python_Libraries.BRS.Utilities.bfio import BFIO, NewArrival, PassengerTypes, MandatoryPlaneIDs
+        from Libraries.BRS_Python_Libraries.BRS.Utilities.bfio import NewArrival
         ################################################
         receivedAPlane:bool = False
         uartError:bool = False
