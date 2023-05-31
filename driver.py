@@ -1178,7 +1178,7 @@ class GamePad(AddonFoundations):
                 Debug.Log(">>> SKIPPED: not specified.")
             else:
                 bindedTo = data["bindedTo"]
-                getter = data["getter"]
+                getter = GamePad.hardwareControls["axes"][hardwareAxis]["getter"]    # getter is not retreived from profiles because its None.
 
                 result = Controls.BindAxis("GamePad", bindedTo, hardwareAxis, getter)
                 if(result != Execution.Passed):
@@ -1196,7 +1196,7 @@ class GamePad(AddonFoundations):
                 Debug.Log(">>> SKIPPED: not specified.")
             else:
                 bindedTo = data["bindedTo"]
-                getter = data["getter"]
+                getter = GamePad.hardwareControls["buttons"][hardwareButton]["getter"]     # getter is not retreived from profiles because its None.
 
                 result = Controls.BindButton("GamePad", bindedTo, hardwareButton, getter)
                 if(result != Execution.Passed):
