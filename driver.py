@@ -117,10 +117,10 @@ profileExample = {
     "hardware" : {
                     "axes" : {
                                 "left-x-positive" : {  "binded" : True,
-                                                  "bindedTo" : "yaw-left",
+                                                  "bindedTo" : "forward",
                                                   "getter" : None},
                                 "left-x-negative" : { "binded" : True,
-                                                 "bindedTo" : "yaw-right",
+                                                 "bindedTo" : "backward",
                                                  "getter" : None},
                                 "left-y-positive" : {  "binded" : True,
                                                   "bindedTo" : "pitch-up",
@@ -135,10 +135,10 @@ profileExample = {
                                                   "bindedTo" : "roll-right",
                                                   "getter" : None},
                                 "right-y-positive" : { "binded" : True,
-                                                  "bindedTo" : "forward",
+                                                  "bindedTo" : "pitch-up",
                                                   "getter" : None},
                                 "right-y-negative" : { "binded" : True,
-                                                  "bindedTo" : "backward",
+                                                  "bindedTo" : "pitch-down",
                                                   "getter" : None}
                             },
                     "buttons" : {
