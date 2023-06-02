@@ -306,11 +306,11 @@ class GamePad(AddonFoundations):
         if(result != Execution.Passed):
             Debug.Error("The BrSpand card cannot run on your device.")
             Debug.Log("Adding addon to application...")
-            dialog = MDDialog(
-                title=_("Verification error"),
-                text=_("This BrSpand card cannot run on your device due to some incompatibility errors.")
-                    )
-            dialog.open()
+            # dialog = MDDialog(
+                # title=_("Verification error"),
+                # text=_("This BrSpand card cannot run on your device due to some incompatibility errors.")
+                    # )
+            # dialog.open()
             GamePad.addonInformation.DockAddonToApplication(False)
             Debug.End()
             return result
@@ -319,11 +319,11 @@ class GamePad(AddonFoundations):
         if(result == Execution.Failed):
             Debug.Error("Failed to start backend driver UART")
             GamePad.addonInformation.DockAddonToApplication(False)
-            dialog = MDDialog(
-                title=_("Driver error"),
-                text=_("UART addons failed to start their drivers. It is unlikely that Kontrol will be able to communicate with GamePad")
-                    )
-            dialog.open()
+            # dialog = MDDialog(
+                # title=_("Driver error"),
+                # text=_("UART addons failed to start their drivers. It is unlikely that Kontrol will be able to communicate with GamePad")
+                    # )
+            # dialog.open()
             Debug.End()
             return Execution.Failed
 
@@ -331,11 +331,11 @@ class GamePad(AddonFoundations):
         if(result != Execution.Passed):
             Debug.Error("Failed to start backend driver UART")
             GamePad.addonInformation.DockAddonToApplication(False)
-            dialog = MDDialog(
-                title=_("GamePad Driver Error"),
-                text=_("GamePad failed to start its BFIO Drivers. Kontrol will not be able to gather inputs from the connected GamePad")
-                )
-            dialog.open()
+            # dialog = MDDialog(
+                # title=_("GamePad Driver Error"),
+                # text=_("GamePad failed to start its BFIO Drivers. Kontrol will not be able to gather inputs from the connected GamePad")
+                # )
+            # dialog.open()
             Debug.End()
             return Execution.Failed
 
