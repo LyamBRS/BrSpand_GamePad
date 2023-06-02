@@ -1058,11 +1058,11 @@ class GamePad(AddonFoundations):
             Debug.End()
             return result
 
-        dialog = MDDialog(
-        title=_("Debug"),
-        text=_(f"1063: {nameOfSoftwareButton} is now binded to {nameOfSoftwareButton}")
-        )
-        dialog.open()
+        # dialog = MDDialog(
+        # title=_("Debug"),
+        # text=_(f"1063: {nameOfSoftwareButton} is now binded to {nameOfSoftwareButton}")
+        # )
+        # dialog.open()
 
         GamePad.hardwareControls["buttons"][nameOfHardwareButton]["binded"] = True
         GamePad.hardwareControls["buttons"][nameOfHardwareButton]["bindedTo"] = nameOfSoftwareButton
